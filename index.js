@@ -16,10 +16,10 @@ app.options('*', cors());
 const port = 8080;
 
 app.get('/', (req, res, next) => {
-  res.send('kafka api - adsoft');
+  res.send('kafka api - Jonathan2708');
 });
 
-const run = async (username) => {
+const run = async (reaction) => {
 
     await producer.connect()
 //    await producer.send()
@@ -27,7 +27,7 @@ const run = async (username) => {
       topic: 'test',
       messages: [ 
 	{ 
-	  'value': `{"name": "${username}" }` 
+	  'value': `{"reactionName": "${reaction}" }` 
   	} 
       ],
     })
@@ -35,9 +35,9 @@ const run = async (username) => {
 }
 
 app.get('/like', (req, res, next) => {
-  const username = req.query.name;
-  res.send({ 'name' : username } );
-  run(username).catch(e => console.error(`[example/producer] ${e.message}`, e))
+  const reaction = req.query.reactionName;
+  res.send({ 'reactionName' : reaction } );
+  run(reaction).catch(e => console.error(`[example/producer] ${e.message}`, e))
 
 });
 
