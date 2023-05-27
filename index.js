@@ -24,7 +24,7 @@ const run = async (reaction) => {
     await producer.connect()
 //    await producer.send()
     await producer.send({
-      topic: 'test',
+      topic: 'reactions',
       messages: [ 
 	{ 
 	  'value': `{"reactionName": "${reaction}" }` 
