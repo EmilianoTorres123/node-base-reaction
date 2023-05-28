@@ -1,3 +1,4 @@
+
 const cors = require('cors')
 const express = require('express')
 const { Kafka } = require('kafkajs')
@@ -16,10 +17,10 @@ app.options('*', cors());
 const port = 8080;
 
 app.get('/', (req, res, next) => {
-  res.send('kafka api - Jonathan2708');
+  res.send('Reaction api - Jonathan2708');
 });
 
-const run = async (reaction) => {
+const run = async (uId, oId, rId) => {
 
     await producer.connect()
 //    await producer.send()
@@ -27,17 +28,20 @@ const run = async (reaction) => {
       topic: 'reactions',
       messages: [ 
 	{ 
-	  'value': `{"reactionName": "${reaction}" }` 
+	  'value': `{ "userId": "${uId}",  "objectId": "${oId}", "reactionId": "${rId}"}` 
   	} 
       ],
     })
    await producer.disconnect()
 }
 
-app.get('/like', (req, res, next) => {
-  const reaction = req.query.reactionName;
-  res.send({ 'reactionName' : reaction } );
-  run(reaction).catch(e => console.error(`[example/producer] ${e.message}`, e))
+app.get('/reaction', (req, res, next) => {
+  const uId = req.query.userId;
+  const oId = req.query.objectId;
+  const rId = req.query.reactionId;
+  
+  res.send({'userId:': uId, 'objectID': oId,'reactionId' : rId } );
+  run(uId, oId, rId).catch(e => console.error(`[example/producer] ${e.message}`, e))
 
 });
 
